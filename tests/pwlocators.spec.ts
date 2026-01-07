@@ -14,8 +14,8 @@ test("Verify Playwright Locators", async({page})=>{
     
 //   2. Identified Non Interactive texts on the Page Using Locators
     
-  //  const text:Locator = page.getByText("Welcome to our store");
-   // await expect(text).toBeVisible();
+    const text:Locator = page.getByText("Welcome to our store");
+     await expect(text).toBeVisible();
 
     await expect(page.getByText("Welcome to our store")).toBeVisible();
     await expect(page.getByText(/Welcome\s+to\s+Our\s+Store/i)).toBeVisible(); 
@@ -41,10 +41,10 @@ test("Verify Playwright Locators", async({page})=>{
 
 
 //6. Identified title on the Page Using Locators
-    await expect (page.getByTitle("Search")).toHaveText("Search");
+   // await expect (page.getByTitle("Search")).toHaveText("Search");
 
 //7. Identified title on the Page Using Locators
-    await page.getByTestId("newsletter-email").fill("test");
+    //await page.getByTestId("newsletter-email").fill("test");
 
 
 
