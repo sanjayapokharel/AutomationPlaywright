@@ -1,29 +1,29 @@
 pipeline {
     agent any
 
-    tools {
-        maven 'Maven-3.9.12'
-        jdk 'JDK'
-    }
-
     stages {
-        stage('Checkout') {
+        stage('Build') {
             steps {
-                git branch: 'main',
-                    url: 'https://github.com/your-repo.git'
+                echo 'Building the code..'
+		bat "mvn clean"
             }
         }
-
-        stage('Run Playwright Tests') {
+        stage('Test') {
             steps {
-                bat 'mvn clean test'
+                echo 'Testing the code..'
+		bat "mvn test"
             }
         }
-    }
-
-    post {
-        always {
-            junit 'target/surefire-reports/*.xml'
+	stage('Compile') {
+            steps {
+                echo 'Compiling the code..'
+		bat "mvn compile"
+            }
+        }
+        stage('Deploy') {
+            steps {
+                echo 'Deploying....'
+            }
         }
     }
 }
