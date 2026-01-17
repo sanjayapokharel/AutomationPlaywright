@@ -68,7 +68,7 @@ console.log("total length of checkboxes selected is:" , i);
 
 
 //Select specific checkbox(Sunday) using getByLabel and assert
-test.only("CheckBox Actions", async ({page})=>{
+test("CheckBox Actions", async ({page})=>{
     test.setTimeout(150000);
     await page.goto("https://testautomationpractice.blogspot.com/");
     const sundayLocator:Locator = page.getByLabel('Sunday');
