@@ -1,29 +1,74 @@
 pipeline {
     agent any
 
+    environment {
+        NODE_ENV = 'test'
+    }
+
     stages {
-        stage('Build') {
+
+        stage('Checkout Source Code') {
             steps {
-                echo 'Building the code..'
-		bat "mvn clean"
+                echo 'Checking out source code from GitHub...'
+                checkout scm
             }
         }
-        stage('Test') {
+
+        stage('Verify Node & NPM') {
             steps {
-                echo 'Testing the code..'
-		bat "mvn test"
+                echo 'Verifying Node.js and npm versions...'
+                bat 'node -v'
+                bat 'npm -v'
             }
         }
-	stage('Compile') {
+
+        stage('Install Project Dependencies') {
             steps {
-                echo 'Compiling the code..'
-		bat "mvn compile"
+                echo 'Installing npm dependencies...'
+                bat 'npm install'
             }
         }
+
+        stage('Install Playwright Browsers') {
+            steps {
+                echo 'Installing Playwright browsers...'
+                bat 'npx playwright install'
+            }
+        }
+
+        stage('Run Playwright Tests') {
+            steps {
+                echo 'Executing Playwright tests...'
+                bat 'npx playwright test'
+            }
+        }
+
+        stage('Generate Playwright Report') {
+            steps {
+                echo 'Playwright HTML report generated automatically'
+            }
+        }
+
         stage('Deploy') {
             steps {
-                echo 'Deploying....'
+                echo 'Deploy stage (placeholder)'
             }
+        }
+    }
+
+    post {
+
+        always {
+            echo 'Archiving Playwright HTML report...'
+            archiveArtifacts artifacts: 'playwright-report/**', fingerprint: true
+        }
+
+        success {
+            echo '✅ Pipeline executed successfully'
+        }
+
+        failure {
+            echo '❌ Pipeline failed'
         }
     }
 }
