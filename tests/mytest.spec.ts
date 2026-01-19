@@ -1,6 +1,7 @@
 import {test, expect} from "@playwright/test";
 
 test('title of the page', async ({page})=>{
+   await test.waitForTimeout(15000);
    await page.goto('http://www.automationpractice.pl/index.php');
     let title:string = await page.title();
     console.log("Title is: ", title);
