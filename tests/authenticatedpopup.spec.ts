@@ -19,7 +19,7 @@ await page.waitForTimeout(5000);
 });
 //2nd approach via passing credentials in context 
 
-test.only("Popup handle from Context",async({browser})=>{
+test("Popup handle from Context",async({browser})=>{
     test.setTimeout(30000);
     //const browser = await firefox.launch();
     const context = await browser.newContext({httpCredentials:{username:'admin',password:'admin'}});
