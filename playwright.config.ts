@@ -16,29 +16,38 @@ export default defineConfig({
   /* Run tests in files in parallel */
   fullyParallel: true,
   /* Fail the build on CI if you accidentally left test.only in the source code. */
+  
+  //timeout:150000,
+  /* Default timeout is 30000ms (30 sec) for action*/
+ // expect:{timeout:10000},
+  /* Default timeout is 5000ms (5 sec) for assertion*/
+
   forbidOnly: !!process.env.CI,
   /* Retry on CI only */
   retries: process.env.CI ? 2 : 0,
   /* Opt out of parallel tests on CI. */
   workers: process.env.CI ? 1 : undefined,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
-  reporter: 'html',
+  reporter: [['html', { open: 'never' }]],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
+    screenshot:'only-on-failure', //Capture the screenshot by Sanjaya
+    video:'retain-on-failure' , //record the video by Sanjaya
     /* Base URL to use in actions like `await page.goto('')`. */
     // baseURL: 'http://localhost:3000',
-
+    //viewport:{width: 1280, height:720},
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
   },
 
   /* Configure projects for major browsers */
   projects: [
+    
     {
       name: 'chromium',
       use: { ...devices['Desktop Chrome'] },
     },
-
+/*
    {
       name: 'firefox',
       use: { ...devices['Desktop Firefox'] },
@@ -48,7 +57,7 @@ export default defineConfig({
       name: 'webkit',
       use: { ...devices['Desktop Safari'] },
     },
-
+*/
     /* Test against mobile viewports. */
     // {
     //   name: 'Mobile Chrome',
