@@ -86,6 +86,7 @@ Jenkins CI
 
             // Publish HTML report in Jenkins UI
             publishHTML([
+                allowMissing: false,
                 reportDir: 'playwright-report',
                 reportFiles: 'index.html',
                 reportName: 'Playwright Report',
