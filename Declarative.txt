@@ -58,29 +58,93 @@ pipeline {
 
     post {
 
-    always {
-        echo 'Archiving Playwright HTML report...'
-        archiveArtifacts artifacts: 'playwright-report/**', fingerprint: true
+        // 🔔 BUILD STARTED EMAIL
+        started {
+            emailext(
+                subject: "🚀 Build Started: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+                body: """
+Hello Team,
 
-        bat 'dir playwright-report'
+A Jenkins pipeline has started.
 
-        script {
-            publishHTML([
-                reportDir: 'playwright-report',
-                reportFiles: 'index.html',
-                reportName: 'Playwright Report',
-                keepAll: true,
-                alwaysLinkToLastBuild: true
-            ])
+Job Name     : ${env.JOB_NAME}
+Build Number : #${env.BUILD_NUMBER}
+Node         : ${env.NODE_NAME}
+Environment  : Localhost Jenkins
+
+Build URL:
+${env.BUILD_URL}
+
+Regards,
+Jenkins CI
+""",
+                to: "your-email@gmail.com"
+            )
+        }
+
+        // 🔹 ALWAYS: Archive Playwright report
+        always {
+            echo 'Archiving Playwright HTML report...'
+            archiveArtifacts artifacts: 'playwright-report/**', fingerprint: true
+
+            bat 'dir playwright-report'
+
+            script {
+                publishHTML([
+                    reportDir: 'playwright-report',
+                    reportFiles: 'index.html',
+                    reportName: 'Playwright Report',
+                    keepAll: true,
+                    alwaysLinkToLastBuild: true
+                ])
+            }
+        }
+
+        // ✅ SUCCESS EMAIL
+        success {
+            emailext(
+                subject: "✅ Build Success: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+                body: """
+Good news 🎉
+
+The Jenkins pipeline completed successfully.
+
+Job Name     : ${env.JOB_NAME}
+Build Number : #${env.BUILD_NUMBER}
+
+Playwright Report:
+${env.BUILD_URL}Playwright_Report/
+
+Build URL:
+${env.BUILD_URL}
+
+Regards,
+Jenkins CI
+""",
+                to: "your-email@gmail.com"
+            )
+        }
+
+        // ❌ FAILURE EMAIL
+        failure {
+            emailext(
+                subject: "❌ Build Failed: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+                body: """
+Attention ❗
+
+The Jenkins pipeline has FAILED.
+
+Job Name     : ${env.JOB_NAME}
+Build Number : #${env.BUILD_NUMBER}
+
+Check logs and Playwright report:
+${env.BUILD_URL}Playwright_Report/
+
+Regards,
+Jenkins CI
+""",
+                to: "your-email@gmail.com"
+            )
         }
     }
-
-    success {
-        echo '✅ Pipeline executed successfully'
-    }
-
-    failure {
-        echo '❌ Pipeline failed'
-    }
-}
 }
