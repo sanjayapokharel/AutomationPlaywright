@@ -7,6 +7,33 @@ pipeline {
 
     stages {
 
+        // 🔔 Notify Build Started
+        stage('Notify Build Started') {
+            steps {
+                echo 'Sending Build Started email...'
+                emailext(
+                    subject: "🚀 Build Started: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+                    body: """
+Hello Team,
+
+A Jenkins pipeline has started.
+
+Job Name     : ${env.JOB_NAME}
+Build Number : #${env.BUILD_NUMBER}
+Node         : ${env.NODE_NAME}
+Environment  : Localhost Jenkins
+
+Build URL:
+${env.BUILD_URL}
+
+Regards,
+Jenkins CI
+""",
+                    to: "your-email@gmail.com"
+                )
+            }
+        }
+
         stage('Checkout Source Code') {
             steps {
                 echo 'Checking out source code from GitHub...'
@@ -57,30 +84,6 @@ pipeline {
     }
 
     post {
-
-        // 🔔 BUILD STARTED EMAIL
-        started {
-            emailext(
-                subject: "🚀 Build Started: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
-                body: """
-Hello Team,
-
-A Jenkins pipeline has started.
-
-Job Name     : ${env.JOB_NAME}
-Build Number : #${env.BUILD_NUMBER}
-Node         : ${env.NODE_NAME}
-Environment  : Localhost Jenkins
-
-Build URL:
-${env.BUILD_URL}
-
-Regards,
-Jenkins CI
-""",
-                to: "your-email@gmail.com"
-            )
-        }
 
         // 🔹 ALWAYS: Archive Playwright report
         always {
