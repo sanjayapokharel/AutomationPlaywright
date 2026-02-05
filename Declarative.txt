@@ -34,28 +34,32 @@ Jenkins CI
             }
         }
 
+        // 🔹 Checkout Code
         stage('Checkout Source Code') {
             steps {
-                echo 'Checking out source code from GitHub...'
+                echo 'Checking out source code from Git...'
                 checkout scm
             }
         }
 
+        // 🔹 Verify Node & NPM
         stage('Verify Node & NPM') {
             steps {
-                echo 'Verifying Node.js and npm versions...'
+                echo 'Checking Node.js and npm versions...'
                 bat 'node -v'
                 bat 'npm -v'
             }
         }
 
+        // 🔹 Install Dependencies
         stage('Install Project Dependencies') {
             steps {
                 echo 'Installing npm dependencies...'
-                bat 'npm install'
+                bat 'npm ci'
             }
         }
 
+        // 🔹 Install Playwright Browsers
         stage('Install Playwright Browsers') {
             steps {
                 echo 'Installing Playwright browsers...'
@@ -63,47 +67,33 @@ Jenkins CI
             }
         }
 
+        // 🔹 Run Playwright Tests & Generate HTML Report
         stage('Run Playwright Tests') {
             steps {
                 echo 'Executing Playwright tests...'
-                bat 'npx playwright test'
-            }
-        }
-
-        stage('Generate Playwright Report') {
-            steps {
-                echo 'Playwright HTML report generated automatically'
-            }
-        }
-
-        stage('Deploy') {
-            steps {
-                echo 'Deploy stage (placeholder)'
+                // Ensure Playwright HTML report is generated
+                bat 'npx playwright test --reporter=html'
             }
         }
     }
 
     post {
-
-        // 🔹 ALWAYS: Archive Playwright report
         always {
             echo 'Archiving Playwright HTML report...'
+
+            // Archive report artifacts
             archiveArtifacts artifacts: 'playwright-report/**', fingerprint: true
 
-            bat 'dir playwright-report'
-
-            script {
-                publishHTML([
-                    reportDir: 'playwright-report',
-                    reportFiles: 'index.html',
-                    reportName: 'Playwright Report',
-                    keepAll: true,
-                    alwaysLinkToLastBuild: true
-                ])
-            }
+            // Publish HTML report in Jenkins UI
+            publishHTML([
+                reportDir: 'playwright-report',
+                reportFiles: 'index.html',
+                reportName: 'Playwright Report',
+                keepAll: true,
+                alwaysLinkToLastBuild: true
+            ])
         }
 
-        // ✅ SUCCESS EMAIL
         success {
             emailext(
                 subject: "✅ Build Success: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
@@ -128,7 +118,6 @@ Jenkins CI
             )
         }
 
-        // ❌ FAILURE EMAIL
         failure {
             emailext(
                 subject: "❌ Build Failed: ${env.JOB_NAME} #${env.BUILD_NUMBER}",

@@ -1,0 +1,8 @@
+<testsuites id="" name="" tests="2" failures="0" skipped="0" errors="0" time="12.652976999999998">
+<testsuite name="screenshots.spec.ts" timestamp="2026-02-05T17:25:02.342Z" hostname="chromium" tests="2" failures="0" skipped="0" time="15.399" errors="0">
+<testcase name="screnshot demo" classname="screenshots.spec.ts" time="5.759">
+</testcase>
+<testcase name="Screenshot from Config" classname="screenshots.spec.ts" time="9.64">
+</testcase>
+</testsuite>
+</testsuites>
