@@ -82,7 +82,8 @@ Jenkins CI
             echo 'Archiving Playwright HTML report...'
 
             // Archive report artifacts
-            archiveArtifacts artifacts: 'playwright-report/**', fingerprint: true
+            echo 'Archiving failed test screenshots...'
+        archiveArtifacts artifacts: 'test-results/**/*.png', fingerprint: true
 
             // Publish HTML report in Jenkins UI
             publishHTML([
