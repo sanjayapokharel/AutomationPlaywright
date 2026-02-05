@@ -61,6 +61,23 @@ pipeline {
         always {
             echo 'Archiving Playwright HTML report...'
             archiveArtifacts artifacts: 'playwright-report/**', fingerprint: true
+         emailext(
+            subject: "Playwright Test Report - ${currentBuild.currentResult}",
+            mimeType: 'text/html',
+            to: 'yourmail@gmail.com',
+            body: """
+                <h3>Playwright Automation Report</h3>
+                <p>Status: <b>${currentBuild.currentResult}</b></p>
+                <p>Job: ${env.JOB_NAME}</p>
+                <p>Build Number: ${env.BUILD_NUMBER}</p>
+                <p>
+                  <a href="${env.BUILD_URL}">
+                    View Jenkins Build
+                  </a>
+                </p>
+            """,
+            attachmentsPattern: 'playwright-report/**'
+        )
         }
 
         success {
