@@ -21,7 +21,7 @@ await page.locator('.product-grid.home-page-product-grid').screenshot({path:'scr
 
 
 
-test.only('Screenshot from Config', async ({ page }) => { // Globally taken screenshot can be added to HTML report
+test('Screenshot from Config', async ({ page }) => { // Globally taken screenshot can be added to HTML report
   await page.goto('https://demoblaze.com/');
   await expect(page.getByRole('link', { name: 'PRODUCT STORE' })).toBeVisible();
   await expect(page.locator('#signin2')).toContainText('Sign up');
