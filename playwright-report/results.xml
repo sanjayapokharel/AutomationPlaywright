@@ -1,8 +1,17 @@
-<testsuites id="" name="" tests="2" failures="0" skipped="0" errors="0" time="24.188556000000002">
-<testsuite name="screenshots.spec.ts" timestamp="2026-02-05T17:51:28.680Z" hostname="chromium" tests="2" failures="0" skipped="0" time="22.907" errors="0">
-<testcase name="screnshot demo" classname="screenshots.spec.ts" time="11.519">
-</testcase>
-<testcase name="Screenshot from Config" classname="screenshots.spec.ts" time="11.388">
+<testsuites id="" name="" tests="1" failures="0" skipped="0" errors="0" time="43.327044">
+<testsuite name="tracing.spec.ts" timestamp="2026-02-08T14:19:05.869Z" hostname="chromium" tests="1" failures="0" skipped="0" time="37.856" errors="0">
+<testcase name="tracing" classname="tracing.spec.ts" time="37.856">
+<system-out>
+<![CDATA[
+[[ATTACHMENT|..\test-results\tracing-tracing-chromium\test-failed-1.png]]
+
+[[ATTACHMENT|..\test-results\tracing-tracing-chromium\video.webm]]
+
+[[ATTACHMENT|..\test-results\tracing-tracing-chromium\error-context.md]]
+
+[[ATTACHMENT|..\test-results\tracing-tracing-chromium\trace.zip]]
+]]>
+</system-out>
 </testcase>
 </testsuite>
 </testsuites>
